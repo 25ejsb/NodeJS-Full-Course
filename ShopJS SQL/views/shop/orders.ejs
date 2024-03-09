@@ -1,0 +1,22 @@
+<%- include("../includes/header.ejs") -%>
+<body>
+    <%- include("../includes/nav.ejs") -%>
+    <main>
+        <% if (orders.length <= 0) { %>
+            <h1>Nothing there</h1>
+        <% } else { %>
+            <div class="products">
+                <% orders.forEach(order => { %>
+                    <div class="product-item">
+                        <% order.products.forEach(item => { %>
+                            <h1><%= item.title %></h1>
+                            <img src="<%= item.imageUrl %>" alt="<%= item.title %>">
+                            <p><%= item.description %></p>
+                        <% }) %>
+                    </div>
+                <% }) %>
+            </div>
+        <% } %>
+    </main>
+    <%- include("../includes/footer.ejs") -%>
+</body>

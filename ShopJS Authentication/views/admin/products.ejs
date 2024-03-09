@@ -1,0 +1,35 @@
+<%- include("../includes/header.ejs") -%>
+<body>
+    <%- include("../includes/nav.ejs") -%>
+    <main>
+        <h1>Shop Products</h1>
+        <div class="products">
+            <% if (products.length > 0) { %>
+            <% products.forEach(product => { %>
+                <div class="product-item">
+                    <h1><%= product.title %></h1>
+                    <img src="/<%= product.imageUrl %>" alt="<%= product.title %>">
+                    <p><%= product.description %></p>
+                    <a href="/admin/editproduct/<%= product._id %>?edit=true">Edit</a>
+                    <input type="hidden" value="<%= product._id %>" name="productId">
+                    <input name="_csrf" type="hidden" value="<%= csrfToken %>">
+                    <button type="button" onclick="deleteProduct(this)">Delete</button>
+                </div>
+            <% }) %>
+            <% } else { %>
+                <h1>No Products Found!</h1>
+            <% } %>
+        </div>
+        <section class="pagination">
+            <% if (previousPage !== 0) { %>
+                <a href="/admin/adminproducts?page=<%= previousPage %>"><%= previousPage %></a>
+            <% } %>
+            <a href="/admin/adminproducts?page=<%= currentPage %>" class="active"><%= currentPage %></a>
+            <% if (hasNextPage) { %>
+                <a href="/admin/adminproducts?page=<%= nextPage %>"><%= nextPage %></a>
+            <% } %>
+        </section>
+    </main>
+    <%- include("../includes/footer.ejs") %>
+    <script src="/js/admin.js"></script>
+</body>

@@ -1,0 +1,29 @@
+<%- include("../includes/header.ejs") -%>
+<body>
+    <%- include("../includes/nav.ejs") -%>
+    <main>
+        <form class="product-form" action="/admin/product" method="POST" enctype="multipart/form-data">
+            <div class="form-control">
+                <label for="title">Title</label>
+                <input class="<%= validationErrors.find(e => e.param === 'title') ? 'invalid': '' %>" type="text" name="title" value="<%= oldInput.title %>">
+            </div>
+            <div class="form-control">
+                <label for="imageUrl">Image URL</label>
+                <!-- <input type="text" class="<%= validationErrors.find(e => e.param === 'imageUrl') ? 'invalid': '' %>" name="imageUrl" value="<%= oldInput.imageUrl %>"> -->
+                <input type="file" name="imageUrl" id="imageUrl">
+            </div>
+            <div class="form-control">
+                <label for="price">Price</label>
+                <input <%= validationErrors.find(e => e.param === 'price') ? 'invalid': '' %> type="number" name="price" value="<%= oldInput.price %>">
+            </div>
+            <div class="form-control">
+                <label for="description">Description</label>
+                <textarea <%= validationErrors.find(e => e.param === 'description') ? 'invalid': '' %> name="description" value="<%= oldInput.description %>"></textarea>
+            </div>
+            <h2 style="background-image: linear-gradient(to right, pink, blue, lightblue); -webkit-background-clip: text; color: transparent;"><%= errorMessage %></h2>
+            <input name="_csrf" type="hidden" value="<%= csrfToken %>">
+            <button type="submit">Add Product</button>
+        </form>
+    </main>
+    <%- include("../includes/footer.ejs") %>
+</body>
