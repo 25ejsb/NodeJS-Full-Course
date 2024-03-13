@@ -1,0 +1,7 @@
+POST http://localhost:8080/feed/post
+Content-Type: application/json
+
+{
+    "title": "hello",
+    "content": "This is my blog"
+}
