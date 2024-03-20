@@ -8,6 +8,8 @@ const crypto = require("crypto")
 const { createServer } = require('node:http');
 const {graphqlHTTP} = require("express-graphql")
 
+const fs = require("fs")
+
 const graphqlSchema = require("./graphql/schema")
 const graphqlResolver = require("./graphql/resolvers")
 const auth = require("./middleware/auth")
@@ -40,6 +42,9 @@ app.use(multer({storage: fileStorage, fileFilter: fileFilter}).single("image"))
 app.use(bodyParser.json())
 app.use("/images", express.static(path.join(__dirname, "images")))
 
+app.use(express.json({limit: '50mb'}));
+app.use(express.urlencoded({limit: '50mb', extended: true}));
+
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', "*")
     res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE")
@@ -48,6 +53,16 @@ app.use((req, res, next) => {
         return res.sendStatus(200)
     }
     next()
+})
+
+app.put("/post-image", (req, res, next) => {
+    if (!req.file) {
+        return res.status(200).json({message: "No file provided!"})
+    }
+    if (req.body.oldPath) {
+        clearImage(req.body.oldPath);
+    }
+    return res.status(201).json({message: "File stored", filePath: req.file.path})
 })
 
 app.use(auth)
@@ -78,3 +93,9 @@ app.use((error, req, res, next) => {
 mongoose.connect('mongodb+srv://Eitan:25Greenseed@atlascluster.0hwwlzn.mongodb.net/shop').then(result => {
     app.listen(8080)
 }).catch(err => console.log(err))
+
+const clearImage = filePath => {
+    filePath = path.join(__dirname, "..", filePath);
+    // deletes the file
+    fs.unlink(filePath, err => console.log(err))
+}
