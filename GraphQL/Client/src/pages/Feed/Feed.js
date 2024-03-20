@@ -22,12 +22,10 @@ class Feed extends Component {
   };
 
   componentDidMount() {
-    fetch('http://localhost:8080/auth/users', {
-      method: "POST",
+    fetch('http://localhost:8080/auth/status', {
       headers: {
-        'Content-Type': "application/json"
-      },
-      body: JSON.stringify({status: this.state.status})
+        Authorization: 'Bearer ' + this.props.token
+      }
     })
       .then(res => {
         if (res.status !== 200) {
@@ -56,10 +54,10 @@ class Feed extends Component {
       page--;
       this.setState({ postPage: page });
     }
-    const query = {
+    const graphqlQuery = {
       query: `
         {
-          posts {
+          posts(page: ${page}) {
             posts {
               _id
               title
@@ -73,25 +71,21 @@ class Feed extends Component {
           }
         }
       `
-    }
+    };
     fetch('http://localhost:8080/graphql', {
-      method: "POST",
-      body: JSON.stringify(query),
+      method: 'POST',
       headers: {
         Authorization: 'Bearer ' + this.props.token,
-        "Content-Type": "application/json"
-      }
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(graphqlQuery)
     })
       .then(res => {
         return res.json();
       })
       .then(resData => {
-        if (resData.errors && resData.errors[0].status === 422) {
-          throw new Error("Validation failed. Make sure the email address isn't used yet")
-        }
         if (resData.errors) {
-          console.log(resData.errors[0])
-          throw new Error("Fetching posts failed, error: " + resData.errors[0])
+          throw new Error('Fetching posts failed!');
         }
         this.setState({
           posts: resData.data.posts.posts.map(post => {
@@ -100,7 +94,7 @@ class Feed extends Component {
               imagePath: post.imageUrl
             };
           }),
-          totalPosts: resData.data.posts.totalItems,
+          totalPosts: resData.data.posts.totalPosts,
           postsLoading: false
         });
       })
@@ -109,12 +103,15 @@ class Feed extends Component {
 
   statusUpdateHandler = event => {
     event.preventDefault();
-    fetch('http://localhost:8080/auth/users', {
-      method: "POST",
+    fetch('http://localhost:8080/auth/status', {
+      method: 'PATCH',
       headers: {
-        'Content-Type': "application/json"
+        Authorization: 'Bearer ' + this.props.token,
+        'Content-Type': 'application/json'
       },
-      body: JSON.stringify({status: this.state.status})
+      body: JSON.stringify({
+        status: this.state.status
+      })
     })
       .then(res => {
         if (res.status !== 200 && res.status !== 201) {
@@ -159,25 +156,28 @@ class Feed extends Component {
     let graphqlQuery = {
       query: `
         mutation {
-          createPost(postInput:{title:"${postData.title}", content:"${postData.content}", imageUrl:"https://laurashulmanbrochstein.org/images/logo.png"}) {
+          createPost(postInput: {title: "${postData.title}", content: "${
+        postData.content
+      }", imageUrl: "some url"}) {
             _id
             title
             content
+            imageUrl
             creator {
               name
             }
-            imageUrl
             createdAt
           }
         }
       `
-    }
+    };
+
     fetch('http://localhost:8080/graphql', {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify(graphqlQuery),
       headers: {
         Authorization: 'Bearer ' + this.props.token,
-        "Content-Type": "application/json"
+        'Content-Type': 'application/json'
       }
     })
       .then(res => {
@@ -185,11 +185,12 @@ class Feed extends Component {
       })
       .then(resData => {
         if (resData.errors && resData.errors[0].status === 422) {
-          throw new Error("Validation failed. Make sure the email address isn't used yet")
+          throw new Error(
+            "Validation failed. Make sure the email address isn't used yet!"
+          );
         }
         if (resData.errors) {
-          console.log(resData.errors[0])
-          throw new Error("Post Validation Failed, error: " + resData.errors[0])
+          throw new Error('User login failed!');
         }
         console.log(resData);
         const post = {
@@ -207,7 +208,8 @@ class Feed extends Component {
             );
             updatedPosts[postIndex] = post;
           } else {
-            updatedPosts.unshift(post)
+            updatedPosts.pop();
+            updatedPosts.unshift(post);
           }
           return {
             posts: updatedPosts,
@@ -235,7 +237,7 @@ class Feed extends Component {
   deletePostHandler = postId => {
     this.setState({ postsLoading: true });
     fetch('http://localhost:8080/feed/post/' + postId, {
-      method: "DELETE",
+      method: 'DELETE',
       headers: {
         Authorization: 'Bearer ' + this.props.token
       }
@@ -248,10 +250,11 @@ class Feed extends Component {
       })
       .then(resData => {
         console.log(resData);
-        this.setState(prevState => {
-          const updatedPosts = prevState.posts.filter(p => p._id !== postId);
-          return { posts: updatedPosts, postsLoading: false };
-        });
+        this.loadPosts();
+        // this.setState(prevState => {
+        //   const updatedPosts = prevState.posts.filter(p => p._id !== postId);
+        //   return { posts: updatedPosts, postsLoading: false };
+        // });
       })
       .catch(err => {
         console.log(err);
