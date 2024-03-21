@@ -1,0 +1,1 @@
+do CTRL+F2 for select all occurances of word

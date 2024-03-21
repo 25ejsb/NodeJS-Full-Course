@@ -9,6 +9,7 @@ const { createServer } = require('node:http');
 const {graphqlHTTP} = require("express-graphql")
 
 const fs = require("fs")
+const {clearImage} = require("./util/file")
 
 const graphqlSchema = require("./graphql/schema")
 const graphqlResolver = require("./graphql/resolvers")
@@ -93,9 +94,3 @@ app.use((error, req, res, next) => {
 mongoose.connect('mongodb+srv://Eitan:25Greenseed@atlascluster.0hwwlzn.mongodb.net/shop').then(result => {
     app.listen(8080)
 }).catch(err => console.log(err))
-
-const clearImage = filePath => {
-    filePath = path.join(__dirname, "..", filePath);
-    // deletes the file
-    fs.unlink(filePath, err => console.log(err))
-}
