@@ -9,7 +9,8 @@ const flash = require("connect-flash")
 const multer = require("multer")
 const crypto = require("crypto")
 
-const MONGODB_URI = "mongodb+srv://Eitan:25Greenseed@atlascluster.0hwwlzn.mongodb.net/shop"
+const MONGODB_URI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@atlascluster.0hwwlzn.mongodb.net/${process.env.MONGO_DEFAULT_DATABASE}`
+console.log(MONGODB_URI)
 
 const app = express()
 const store = new MongoDBStore({
@@ -94,5 +95,5 @@ app.use(routes404.get500)
 
 
 mongoose.connect(MONGODB_URI).then(result => {
-    app.listen(5000)
+    app.listen(process.env.PORT || 5000)
 }).catch(err => console.log(err))
