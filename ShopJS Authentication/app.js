@@ -8,6 +8,7 @@ const csrf = require("csurf")
 const flash = require("connect-flash")
 const multer = require("multer")
 const crypto = require("crypto")
+const helmet = require("helmet")
 
 const MONGODB_URI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@atlascluster.0hwwlzn.mongodb.net/${process.env.MONGO_DEFAULT_DATABASE}`
 console.log(MONGODB_URI)
@@ -52,6 +53,8 @@ const fileFilter = (req, file, cb) => {
     cb(null, false)
   }
 }
+
+app.use(helmet())
 
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(multer({storage: fileStorage, fileFilter: fileFilter}).single('imageUrl'))
