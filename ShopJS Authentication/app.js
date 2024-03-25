@@ -8,7 +8,6 @@ const csrf = require("csurf")
 const flash = require("connect-flash")
 const multer = require("multer")
 const crypto = require("crypto")
-require("dotenv").config()
 
 const MONGODB_URI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@atlascluster.0hwwlzn.mongodb.net/${process.env.MONGO_DEFAULT_DATABASE}`
 console.log(MONGODB_URI)
@@ -93,6 +92,7 @@ app.use(authRoutes)
 
 app.use(routes404.get404Page)
 app.use(routes404.get500)
+
 
 mongoose.connect(MONGODB_URI, {family: 4}).then(result => {
     app.listen(process.env.PORT || 5000)

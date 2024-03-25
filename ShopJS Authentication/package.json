@@ -5,7 +5,6 @@
     "connect-flash": "^0.1.1",
     "connect-mongodb-session": "^3.1.1",
     "csurf": "^1.11.0",
-    "dotenv": "^16.4.5",
     "ejs": "^3.1.9",
     "express": "^4.18.2",
     "express-session": "^1.17.3",
@@ -25,5 +24,8 @@
     "start": "MONGO_USER=Eitan MONGO_PASSWORD=25Greenseed MONGO_DEFAULT_DATABASE=shop STRIPE_KEY=sk_test_51NjNDxGfqC8skrjVlGjytW0xERwRBhP4laIzQOgbTD6Y4M6LrNChLJYtGAq8XWsElsI6HTO0TycE3bM15kLdSRBA00kFumFsRu node app.js",
     "dev": "nodemon app.js"
   },
-  "name": "shopjs-authentication"
+  "name": "shopjs-authentication",
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
 }
