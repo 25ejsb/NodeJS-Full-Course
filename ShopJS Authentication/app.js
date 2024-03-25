@@ -8,6 +8,7 @@ const csrf = require("csurf")
 const flash = require("connect-flash")
 const multer = require("multer")
 const crypto = require("crypto")
+require("dotenv").config()
 
 const MONGODB_URI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@atlascluster.0hwwlzn.mongodb.net/${process.env.MONGO_DEFAULT_DATABASE}`
 console.log(MONGODB_URI)
