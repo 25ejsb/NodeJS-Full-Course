@@ -93,8 +93,7 @@ app.use(authRoutes)
 app.use(routes404.get404Page)
 app.use(routes404.get500)
 
-
-mongoose.connect(MONGODB_URI, {family: 4}).then(result => {
+mongoose.connect(MONGODB_URI).then(result => {
     app.listen(process.env.PORT || 5000)
     console.log("Connected!")
 }).catch(err => console.log(err))
