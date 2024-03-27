@@ -23,8 +23,5 @@
     "start": "MONGO_USER=Eitan MONGO_PASSWORD=25Greenseed MONGO_DEFAULT_DATABASE=shop STRIPE_KEY=sk_test_51NjNDxGfqC8skrjVlGjytW0xERwRBhP4laIzQOgbTD6Y4M6LrNChLJYtGAq8XWsElsI6HTO0TycE3bM15kLdSRBA00kFumFsRu node app.js",
     "dev": "nodemon app.js"
   },
-  "name": "shopjs-authentication",
-  "devDependencies": {
-    "nodemon": "^3.1.0"
-  }
+  "name": "shopjs-authentication"
 }
