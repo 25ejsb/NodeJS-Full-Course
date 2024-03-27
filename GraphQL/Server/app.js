@@ -91,6 +91,6 @@ app.use((error, req, res, next) => {
     res.status(status).json({message: message, data: data})
 })
 
-mongoose.connect('mongodb+srv://Eitan:25Greenseed@atlascluster.0hwwlzn.mongodb.net/shop').then(result => {
+mongoose.connect('mongodb+srv://Eitan:25Greenseed@atlascluster.0hwwlzn.mongodb.net/shop', {family: 4}).then(result => {
     app.listen(8080)
 }).catch(err => console.log(err))

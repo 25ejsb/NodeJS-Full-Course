@@ -10,7 +10,7 @@ const mongoose = require("mongoose")
 
 const PDFDocument = require("pdfkit")
 
-const stripe = require("stripe")(process.env.STRIPE_KEY);
+const stripe = require("stripe")("sk_test_51NjNDxGfqC8skrjVlGjytW0xERwRBhP4laIzQOgbTD6Y4M6LrNChLJYtGAq8XWsElsI6HTO0TycE3bM15kLdSRBA00kFumFsRu");
 
 const { validationResult } = require("express-validator")
 

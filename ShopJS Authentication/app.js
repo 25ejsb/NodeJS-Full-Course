@@ -9,7 +9,7 @@ const flash = require("connect-flash")
 const multer = require("multer")
 const crypto = require("crypto")
 
-const MONGODB_URI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@atlascluster.0hwwlzn.mongodb.net/${process.env.MONGO_DEFAULT_DATABASE}`
+const MONGODB_URI = `mongodb+srv://Eitan:25Greenseed@atlascluster.0hwwlzn.mongodb.net/shop`
 console.log(MONGODB_URI)
 
 const app = express()
@@ -63,7 +63,7 @@ app.use(
 app.use(csrfProtection)
 app.use(flash())
 
-// make main middleware at the bottom
+//make main middleware at the bottom
 
 app.use((req, res, next) => {
     if (!req.session.user) {
@@ -93,7 +93,8 @@ app.use(authRoutes)
 app.use(routes404.get404Page)
 app.use(routes404.get500)
 
-mongoose.connect(MONGODB_URI).then(result => {
-    app.listen(process.env.PORT || 5000)
-    console.log("Connected!")
+mongoose.connect(MONGODB_URI, {family: 4}).then(result => {
+    app.listen(5000, '0.0.0.0', () => {
+      console.log("http://localhost:5000")
+    })
 }).catch(err => console.log(err))
