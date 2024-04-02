@@ -8,6 +8,7 @@ const csrf = require("csurf")
 const flash = require("connect-flash")
 const multer = require("multer")
 const crypto = require("crypto")
+const compression = require("compression")
 
 const MONGODB_URI = `mongodb+srv://Eitan:25Greenseed@atlascluster.0hwwlzn.mongodb.net/shop`
 console.log(MONGODB_URI)
@@ -31,6 +32,7 @@ const authRoutes = require("./routes/auth")
 
 const routes404 = require("./controllers/404");
 const router = require("./routes/admin");
+const morgan = require("morgan");
 
 const fileStorage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -62,6 +64,7 @@ app.use(
 )
 app.use(csrfProtection)
 app.use(flash())
+app.use(compression())
 
 //make main middleware at the bottom
 
@@ -86,15 +89,16 @@ app.use((req, res, next) => {
   next();
 })
 
-app.use('/admin', adminRoutes)
+// app.use('/admin', adminRoutes)
 app.use(shopRoutes)
-app.use(authRoutes)
+// app.use(authRoutes)
 
 app.use(routes404.get404Page)
 app.use(routes404.get500)
 
 mongoose.connect(MONGODB_URI, {family: 4}).then(result => {
-    app.listen(5000, '0.0.0.0', () => {
-      console.log("http://localhost:5000")
-    })
+  console.log("Connected")
+  app.listen(8080, () => {
+    console.log("http://localhost:8080")
+  })
 }).catch(err => console.log(err))
