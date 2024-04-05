@@ -89,9 +89,9 @@ app.use((req, res, next) => {
   next();
 })
 
-// app.use('/admin', adminRoutes)
+app.use('/admin', adminRoutes)
 app.use(shopRoutes)
-// app.use(authRoutes)
+app.use(authRoutes)
 
 app.use(routes404.get404Page)
 app.use(routes404.get500)
