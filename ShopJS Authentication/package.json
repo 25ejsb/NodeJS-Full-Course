@@ -24,5 +24,11 @@
     "start": "MONGO_USER=Eitan MONGO_PASSWORD=25Greenseed MONGO_DEFAULT_DATABASE=shop STRIPE_KEY=sk_test_51NjNDxGfqC8skrjVlGjytW0xERwRBhP4laIzQOgbTD6Y4M6LrNChLJYtGAq8XWsElsI6HTO0TycE3bM15kLdSRBA00kFumFsRu node app.js",
     "dev": "nodemon app.js"
   },
-  "name": "shopjs-authentication"
+  "name": "shopjs-authentication",
+  "version": "1.0.0",
+  "description": "weird asf project",
+  "main": "app.js",
+  "engines": {
+    "node": "^21.7.1"
+  }
 }
