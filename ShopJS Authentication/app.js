@@ -16,7 +16,10 @@ console.log(MONGODB_URI)
 const app = express()
 const store = new MongoDBStore({
     uri: MONGODB_URI,
-    collection: "sessions"
+    collection: "sessions",
+    connectionOptions: {
+      family: 4
+    }
 })
 const csrfProtection = csrf(); 
 
@@ -59,9 +62,14 @@ app.use(bodyParser.urlencoded({extended: false}))
 app.use(multer({storage: fileStorage, fileFilter: fileFilter}).single('imageUrl'))
 app.use(express.static(path.join(__dirname, 'public')))
 app.use('/images', express.static(path.join(__dirname, 'images')))
-app.use(
-    session({secret: 'dosilddusnnsaioda', resave: false, saveUninitialized: false, store: store})
-)
+// IMPORTANT, without trust proxy, the server would run much slower
+app.set('trust proxy', 1) // trust first proxy
+app.use(session({
+  secret: 'dosilddusnnsaioda',
+  resave: false,
+  saveUninitialized: true,
+  store: store
+}))
 app.use(csrfProtection)
 app.use(flash())
 app.use(compression())
@@ -97,8 +105,5 @@ app.use(routes404.get404Page)
 app.use(routes404.get500)
 
 mongoose.connect(MONGODB_URI, {family: 4}).then(result => {
-  console.log("Connected")
-  app.listen(8080, () => {
-    console.log("http://localhost:8080")
-  })
+  app.listen(8080)
 }).catch(err => console.log(err))
