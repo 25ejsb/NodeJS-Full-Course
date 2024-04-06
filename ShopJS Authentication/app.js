@@ -1,3 +1,5 @@
+const https = require("https");
+const fs = require("fs")
 const express = require("express");
 const bodyParser = require("body-parser")
 const path = require("path")
@@ -21,7 +23,10 @@ const store = new MongoDBStore({
       family: 4
     }
 })
-const csrfProtection = csrf(); 
+const csrfProtection = csrf();
+
+const privateKey = fs.readFileSync("server.key")
+const certificate = fs.readFileSync("server.cert")
 
 const mongoConnect = require("./helpers/database").mongoConnect;
 const User = require("./models/user")
@@ -73,6 +78,7 @@ app.use(session({
 app.use(csrfProtection)
 app.use(flash())
 app.use(compression())
+app.use(morgan("combined"))
 
 //make main middleware at the bottom
 
@@ -105,5 +111,7 @@ app.use(routes404.get404Page)
 app.use(routes404.get500)
 
 mongoose.connect(MONGODB_URI, {family: 4}).then(result => {
+  // https.createServer({key: privateKey, cert: certificate}, app).listen(8080)
   app.listen(8080)
+  console.log("http://localhost:8080")
 }).catch(err => console.log(err))
