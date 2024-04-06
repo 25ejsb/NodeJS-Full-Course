@@ -112,6 +112,6 @@ app.use(routes404.get500)
 
 mongoose.connect(MONGODB_URI, {family: 4}).then(result => {
   // https.createServer({key: privateKey, cert: certificate}, app).listen(8080)
-  app.listen(8080)
+  app.listen(process.env.PORT || 8080)
   console.log("http://localhost:8080")
 }).catch(err => console.log(err))
