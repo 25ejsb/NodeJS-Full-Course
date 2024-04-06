@@ -1,0 +1,20 @@
+<%- include("../includes/header.ejs") %>
+<body>
+    <%- include("../includes/nav.ejs") %>
+    <main>
+        <form action="/signup" method="post" class="login-form" novalidate>
+            <div class="form-control">
+                <label for="email">E-Mail</label>
+                <input class="<%= validationErrors.find(e => e.param === 'email') ? 'invalid': '' %>" type="text" id="email" name="email" value="<%= oldInput.email %>">
+                <label for="password">Password</label>
+                <input class="<%= validationErrors.find(e => e.param === 'password') ? 'invalid': '' %>" type="password" id="password" name="password" value="<%= oldInput.password %>">
+                <label for="password-confirm">Confirm Password</label>
+                <input class="<%= validationErrors.find(e => e.param === 'confirmPassword') ? 'invalid': '' %>" type="password" id="password-confirm" name="passwordconfirm" value="<%= oldInput.confirmPassword %>">
+                <input name="_csrf" type="hidden" value="<%= csrfToken %>">
+                <h2 style="background-image: linear-gradient(to right, pink, blue, lightblue); -webkit-background-clip: text; color: transparent;"><%= errorMessage %></h2>
+                <button type="submit">Sign Me In!</button>
+            </div>
+        </form>
+    </main>
+    <%- include("../includes/footer.ejs") %>
+</body>

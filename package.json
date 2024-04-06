@@ -1,0 +1,28 @@
+{
+  "dependencies": {
+    "@aws-sdk/credential-providers": "^3.540.0",
+    "bcryptjs": "^2.4.3",
+    "compression": "^1.7.4",
+    "connect-flash": "^0.1.1",
+    "connect-mongodb-session": "^5.0.0",
+    "csurf": "^1.11.0",
+    "ejs": "^3.1.9",
+    "express": "^4.19.2",
+    "express-session": "^1.18.0",
+    "express-validator": "^7.0.1",
+    "mongoose": "^8.2.3",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.9.13",
+    "nodemailer-sendgrid-transport": "^0.2.0",
+    "pdfkit": "^0.15.0",
+    "stripe": "^14.22.0",
+    "vary": "^1.1.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "MONGO_USER=Eitan MONGO_PASSWORD=25Greenseed MONGO_DEFAULT_DATABASE=shop STRIPE_KEY=sk_test_51NjNDxGfqC8skrjVlGjytW0xERwRBhP4laIzQOgbTD6Y4M6LrNChLJYtGAq8XWsElsI6HTO0TycE3bM15kLdSRBA00kFumFsRu node app.js",
+    "dev": "nodemon app.js"
+  },
+  "name": "shopjs-authentication"
+}
