@@ -37,6 +37,7 @@ app.set("view engine", 'ejs')
 const adminRoutes = require("./routes/admin")
 const shopRoutes = require("./routes/shop");
 const authRoutes = require("./routes/auth")
+const isAuth = require("./middleware/is-auth")
 
 const routes404 = require("./controllers/404");
 const router = require("./routes/admin");
@@ -97,11 +98,7 @@ app.use((req, res, next) => {
       });
 });
 
-app.use((req, res, next) => {
-  res.locals.isAuthenticated = req.session.isLoggedIn
-  res.locals.csrfToken = req.csrfToken();
-  next();
-})
+app.use(isAuth)
 
 app.use('/admin', adminRoutes)
 app.use(shopRoutes)
