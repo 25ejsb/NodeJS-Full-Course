@@ -19,3 +19,12 @@ it("show throw an errorif the authorization header is only one string", function
     }
     expect(authMiddleware.bind(this, req, {}, () => {})).to.throw()
 })
+
+it("should throw an error if the token cannot be verified", function() {
+    const req = {
+        get: function() {
+            return "Bearer xyz";
+        }
+    }
+    expect(authMiddleware.bind(this, req, {}, () => {})).to.throw()
+})
