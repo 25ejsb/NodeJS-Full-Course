@@ -1,4 +1,6 @@
 const expect = require("chai").expect
+const sinon = require("sinon")
+const jwt = require("jsonwebtoken")
 
 const authMiddleware = require("../middleware/is-auth")
 
@@ -26,5 +28,9 @@ it("should throw an error if the token cannot be verified", function() {
             return "Bearer xyz";
         }
     }
-    expect(authMiddleware.bind(this, req, {}, () => {})).to.throw()
+    sinon.stub(jwt, "verify");
+    jwt.verify.returns({userId: "abc"});
+    authMiddleware(this, req, {}, () => {});
+    expect(req).to.have.property("userId");
+    jwt.verify.restore();
 })
