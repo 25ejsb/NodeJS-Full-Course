@@ -1,11 +1,11 @@
-const fs = require("fs")
+import fs from "fs"
 
-const app = require("express")()
+import express from "express"
 
-app.get("/", (req, res, next) => {
-    fs.readFile("my-page.html", "utf-8", (err, data) => {
-        res.send(data)
-    })
-})
+const app = express();
+
+import {resHandler} from "./response-handler.js";
+
+app.get("/", resHandler)
 
 app.listen(8080)
