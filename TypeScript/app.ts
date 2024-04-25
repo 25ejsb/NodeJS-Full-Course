@@ -15,7 +15,7 @@ function add(num1: number | string, num2: number | string) {
 }
 
 function printResult(resultObj: { val: number; timestamp: Date }) {
-    console.log(resultObj.val);
+    console.log(resultObj);
 }
 
 buttonElement.addEventListener("click", () => {
