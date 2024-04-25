@@ -14,7 +14,7 @@ function add(num1, num2) {
     return +num1 + +num2;
 }
 function printResult(resultObj) {
-    console.log(resultObj);
+    console.log(resultObj.val, resultObj.timestamp);
 }
 buttonElement.addEventListener("click", () => {
     const num1 = num1Element.value;
