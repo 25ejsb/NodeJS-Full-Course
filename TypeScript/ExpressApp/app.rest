@@ -1,0 +1,23 @@
+POST http://localhost:3000/todo
+Content-Type: application/json
+
+{
+    "text": "My First Todo!"
+}
+
+###
+
+GET http://localhost:3000
+
+###
+
+PUT http://localhost:3000/todo/2024-04-28T19:22:54.188Z
+Content-Type: application/json
+
+{
+    "text": "nice"
+}
+
+###
+
+DELETE http://localhost:3000/todo/2024-04-28T19:22:54.188Z

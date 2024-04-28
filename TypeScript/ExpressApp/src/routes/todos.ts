@@ -4,6 +4,8 @@ import {Todo} from "../models/todo";
 
 let todos: Todo[] = []
 
+type RequestBody = {text: string};
+
 const router = Router();
 
 router.get("/", (req, res, next) => {
@@ -11,9 +13,10 @@ router.get("/", (req, res, next) => {
 })
 
 router.post("/todo", (req, res, next) => {
+    const body = req.body as RequestBody
     const newTodo: Todo = {
         id: new Date().toISOString(),
-        text: req.body.text
+        text: body.text
     };
     todos.push(newTodo)
     res.status(201).json({message: "Added todo", todo: newTodo, todos: todos})
