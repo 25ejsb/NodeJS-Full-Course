@@ -1,0 +1,23 @@
+GET http://localhost:3000/todos
+
+###
+
+POST http://localhost:3000/todos
+Content-Type: application/json
+
+{
+    "text": "Hello"
+}
+
+###
+
+PUT http://localhost:3000/todos/2024-04-29T19:56:55.380Z
+Content-Type: application/json
+
+{
+    "text": "fikosaji"
+}
+
+###
+
+DELETE http://localhost:3000/todos/2024-04-29T19:58:50.821Z
